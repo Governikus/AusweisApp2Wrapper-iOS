@@ -41,7 +41,6 @@ class AA2SdkConnection: SdkConnection {
 		do {
 			let messageData = try jsonEncoder.encode(command)
 			if let messageJson = String(data: messageData, encoding: .utf8) {
-				print("Send message: \(messageJson)")
 				ausweisapp2_send(messageJson)
 			}
 		} catch {

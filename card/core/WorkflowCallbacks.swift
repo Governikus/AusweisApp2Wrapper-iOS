@@ -86,7 +86,7 @@ public protocol WorkflowCallbacks: AnyObject {
 
 	 - Parameter changePinResult: Result of the pin change
 	 */
-	func onChangePinCompleted(changePinResult: ChangePinResult?)
+	func onChangePinCompleted(changePinResult: ChangePinResult)
 
 	/**
 	 A pin change has been started via WorkflowController.startChangePin().

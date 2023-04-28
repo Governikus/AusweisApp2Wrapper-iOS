@@ -138,6 +138,9 @@ public struct AuthResult {
 public struct ChangePinResult {
 	// False if an error occured or the PIN change was aborted.
 	public let success: Bool
+
+	/// Unique error code if the PIN change failed.
+	public let reason: String?
 }
 
 /// Information about an authentication.

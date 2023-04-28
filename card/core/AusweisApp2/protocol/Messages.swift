@@ -37,6 +37,7 @@ struct AA2Message: Decodable {
 	let description: AA2Description?
 	let url: String?
 	let success: Bool?
+	let reason: String?
 	let reader: AA2Reader?
 	let readers: [AA2Reader]?
 	let name: String?
@@ -56,6 +57,7 @@ struct AA2Message: Decodable {
 		case msg, error, card, result, chat, aux, transactionInfo, validity
 		case description, url, success, reader, workflow, progress, state
 		case name, insertable, attached, keypad, readers, available, current
+		case reason
 	}
 }
 

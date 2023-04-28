@@ -470,7 +470,7 @@ public class WorkflowController {
 
 		case AA2Messages.MsgChangePin:
 			if let success = message.success {
-				let result = ChangePinResult(success: success)
+				let result = ChangePinResult(success: success, reason: message.reason)
 				callback { $0.onChangePinCompleted(changePinResult: result) }
 			} else {
 				callback { $0.onChangePinStarted() }
