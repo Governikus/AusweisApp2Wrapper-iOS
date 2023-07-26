@@ -96,12 +96,12 @@ public struct Reader {
 		self.card = card
 	}
 
-	init(reader: AA2Reader?) {
-		name = reader?.name ?? ""
-		insertable = reader?.insertable ?? false
-		attached = reader?.attached ?? false
-		keypad = reader?.keypad ?? false
-		card = reader?.card != nil ? Card(card: reader?.card) : nil
+	init(reader: AA2Reader) {
+		name = reader.name
+		insertable = reader.insertable
+		attached = reader.attached
+		keypad = reader.keypad
+		card = reader.card != nil ? Card(card: reader.card!) : nil
 	}
 }
 
@@ -118,10 +118,10 @@ public struct Card {
 	/// Count of possible retries for the PIN. If you enter a PIN it will be decreased if PIN was incorrect.
 	public let pinRetryCounter: Int
 
-	init(card: AA2Card?) {
-		deactivated = card?.deactivated ?? true
-		inoperative = card?.inoperative ?? true
-		pinRetryCounter = card?.retryCounter ?? 0
+	init(card: AA2Card) {
+		deactivated = card.deactivated
+		inoperative = card.inoperative
+		pinRetryCounter = card.retryCounter
 	}
 }
 
