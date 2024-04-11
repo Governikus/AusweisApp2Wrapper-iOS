@@ -561,4 +561,6 @@ public class WorkflowController {
 			print("Received unknown message \(message.msg)")
 		}
 	}
+
+	// swiftlint:enable cyclomatic_complexity function_body_length
 }

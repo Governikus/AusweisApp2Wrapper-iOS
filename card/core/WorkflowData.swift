@@ -276,6 +276,8 @@ public enum WorkflowProgressType: String {
 	case CHANGE_PIN
 }
 
+// swiftlint:enable identifier_name
+
 // swiftlint:disable opening_brace
 /// Messages for the NFC system dialog
 public struct AA2UserInfoMessages: Encodable {
@@ -299,6 +301,8 @@ public struct AA2UserInfoMessages: Encodable {
 	/// Shown if communication is in progress. This message will be appended with current percentage level.
 	let sessionInProgress: String?
 }
+
+// swiftlint:enable opening_brace
 
 /// Optional definition of files for the Simulator reader
 public struct Simulator: Encodable {

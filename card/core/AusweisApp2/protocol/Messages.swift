@@ -4,7 +4,7 @@
 
 import Foundation
 
-struct AA2Messages {
+enum AA2Messages {
 	static let MsgAccessRights = "ACCESS_RIGHTS"
 	static let MsgAuth = "AUTH"
 	static let MsgCertificate = "CERTIFICATE"
