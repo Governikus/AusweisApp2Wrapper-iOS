@@ -16,6 +16,10 @@ struct Cancel: Command {
 	let cmd = "CANCEL"
 }
 
+struct ContinueWorkflow: Command {
+	let cmd = "CONTINUE"
+}
+
 struct GetCertificate: Command {
 	let cmd = "GET_CERTIFICATE"
 }
@@ -82,15 +86,6 @@ struct GetReader: Command {
 
 struct GetReaderList: Command {
 	let cmd = "GET_READER_LIST"
-}
-
-struct GetApiLevel: Command {
-	let cmd = "GET_API_LEVEL"
-}
-
-struct SetApiLevel: Command {
-	let cmd = "SET_API_LEVEL"
-	let level: Int
 }
 
 struct SetCard: Command {

@@ -106,23 +106,35 @@ public struct Reader {
 }
 
 /// Provides information about inserted card.
+/// An unknown card (without eID function) is represented by all properties set to null.
 public struct Card {
 	/// True if PUK is inoperative and cannot unblock PIN otherwise false.
 	/// This can be recognized if user enters a correct PUK only.
 	/// It is not possible to read this data before a user tries to unblock the PIN.
-	public let deactivated: Bool
+	public let deactivated: Bool?
 
 	/// True if eID functionality is deactivated otherwise false.
-	public let inoperative: Bool
+	public let inoperative: Bool?
 
 	/// Count of possible retries for the PIN. If you enter a PIN it will be decreased if PIN was incorrect.
-	public let pinRetryCounter: Int
+	public let pinRetryCounter: Int?
 
 	init(card: AA2Card) {
 		deactivated = card.deactivated
 		inoperative = card.inoperative
 		pinRetryCounter = card.retryCounter
 	}
+
+	/// Convenience method to check if an unknown card (without eID function) was detected.
+	public func isUnknown() -> Bool {
+		return inoperative == nil && deactivated == nil && pinRetryCounter == nil
+	}
+}
+
+/// Provides information about why the SDK is waiting.
+public enum Cause: String {
+	/// Denotes an unstable or lost card connection.
+	case BadCardPosition // swiftlint:disable:this identifier_name
 }
 
 /// Final result of an authentication.
@@ -232,15 +244,6 @@ public struct VersionInfo {
 	}
 }
 
-/// Provides information about the API Level of the underlying AusweisApp2
-public struct ApiLevel {
-	/// List of available API level, nil in a response to WorkflowController.setApiLevel().
-	public let available: [Int]?
-
-	/// Currently set API Level.
-	public let current: Int
-}
-
 // swiftlint:disable identifier_name
 /// List of all available access rights a provider might request.
 public enum AccessRight: String {
@@ -304,13 +307,16 @@ public struct AA2UserInfoMessages: Encodable {
 
 // swiftlint:enable opening_brace
 
-/// Optional definition of files for the Simulator reader
+/// Optional definition of files and keys for the Simulator reader
 public struct Simulator: Encodable {
 	/// List of SimulatorFile definitions
 	let files: [SimulatorFile]
+	/// List of SimulatorKey definitions
+	let keys: [SimulatorKey]?
 
-	public init(withFiles: [SimulatorFile]) {
+	public init(withFiles: [SimulatorFile], withKeys: [SimulatorKey]? = nil) {
 		files = withFiles
+		keys = withKeys
 	}
 }
 
@@ -326,6 +332,17 @@ public struct SimulatorFile: Encodable {
 	public init(withFileId: String, withShortFileId: String, withContent: String) {
 		fileId = withFileId
 		shortFileId = withShortFileId
+		content = withContent
+	}
+}
+
+/// Keys for Simulator reader
+/// The keys are used to check against the blacklist and to calculate the pseudonym for the service provider.
+public struct SimulatorKey: Encodable {
+	let id: Int
+	let content: String
+	public init(withId: Int, withContent: String) {
+		id = withId
 		content = withContent
 	}
 }

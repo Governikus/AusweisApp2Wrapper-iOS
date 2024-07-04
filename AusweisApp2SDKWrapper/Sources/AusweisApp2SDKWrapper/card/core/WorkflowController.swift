@@ -150,21 +150,19 @@ public class WorkflowController {
 	}
 
 	/**
+	 Resumes the workflow after a callback to WorkflowCallbacks.onPause().
+	 */
+	public func continueWorkflow() {
+		send(command: ContinueWorkflow())
+	}
+
+	/**
 	 Returns information about the requested access rights.
 
 	 This command is allowed only if the SDK Wrapper called WorkflowController.onAccessRights() beforehand.
 	  */
 	public func getAccessRights() {
 		send(command: GetAccessRights())
-	}
-
-	/**
-	 Returns information about the available and current API level.
-
-	 The SDK Wrapper will call WorkflowCallbacks.onApiLevel() as an answer.
-	 */
-	public func getApiLevel() {
-		send(command: GetApiLevel())
 	}
 
 	/**
@@ -245,20 +243,6 @@ public class WorkflowController {
 	 */
 	public func setAccessRights(_ optionalAccessRights: [AccessRight]) {
 		send(command: SetAccessRights(chat: optionalAccessRights.map { $0.rawValue }))
-	}
-
-	/**
-	 Set supported API level of your application.
-
-	 If you initially develop your application against the SDK Wrapper you should check
-	 the highest supported level with getApiLevel() and set this value with this command
-	 when you connect to the SDK Wrapper.
-	 This will set the SDK Wrapper to act with the defined level even if a newer level is available.
-
-	 - Parameter level: Supported API level of your app.
-	 */
-	public func setApiLevel(level: Int) {
-		send(command: SetApiLevel(level: level))
 	}
 
 	/**
@@ -549,13 +533,18 @@ public class WorkflowController {
 				callback { $0.onWrapperError(error: error) }
 			}
 
-		case AA2Messages.MsgApiLevel:
-			if let current = message.current {
-				let apiLevel = ApiLevel(available: message.available, current: current)
-				callback { $0.onApiLevel(error: message.error, apiLevel: apiLevel) }
-			} else {
-				callback { $0.onApiLevel(error: message.error, apiLevel: nil) }
+		case AA2Messages.MsgPause:
+			if let cause = message.cause {
+				if let cause = Cause(rawValue: cause) {
+					callback { $0.onPause(cause: cause) }
+				} else {
+					let error = WrapperError(msg: message.msg, error: "Failed to map cause \"\(cause)\" to Cause")
+					callback { $0.onWrapperError(error: error) }
+				}
+				return
 			}
+			let error = WrapperError(msg: message.msg, error: "Missing cause object")
+			callback { $0.onWrapperError(error: error) }
 
 		default:
 			print("Received unknown message \(message.msg)")

@@ -22,7 +22,7 @@ enum AA2Messages {
 	static let MsgStatus = "STATUS"
 	static let MsgInfo = "INFO"
 	static let MsgReaderList = "READER_LIST"
-	static let MsgApiLevel = "API_LEVEL"
+	static let MsgPause = "PAUSE"
 }
 
 struct AA2Message: Decodable {
@@ -48,16 +48,14 @@ struct AA2Message: Decodable {
 	let progress: Int?
 	let state: String?
 	let versionInfo: AA2VersionInfo?
-	let available: [Int]?
-	let current: Int?
+	let cause: String?
 
 	enum CodingKeys: String, CodingKey {
 		case versionInfo = "VersionInfo"
 
 		case msg, error, card, result, chat, aux, transactionInfo, validity
 		case description, url, success, reader, workflow, progress, state
-		case name, insertable, attached, keypad, readers, available, current
-		case reason
+		case name, insertable, attached, keypad, readers, reason, cause
 	}
 }
 
@@ -89,9 +87,9 @@ struct AA2Aux: Decodable {
 }
 
 struct AA2Card: Decodable {
-	let deactivated: Bool
-	let inoperative: Bool
-	let retryCounter: Int
+	let deactivated: Bool?
+	let inoperative: Bool?
+	let retryCounter: Int?
 }
 
 struct AA2Reader: Decodable {

@@ -31,15 +31,6 @@ public protocol WorkflowCallbacks: AnyObject {
 	func onAccessRights(error: String?, accessRights: AccessRights?)
 
 	/**
-	 Provides information about the supported API level of the employed AusweisApp2
-
-	 Response to a call to WorkflowController.getApiLevel() and WorkflowController.setApiLevel().
-
-	 - Parameter error: Optional error message if WorkflowController.setApiLevel() failed.
-	 - Parameter apiLevel: Contains information about the supported and employed API level.
-	 */
-	func onApiLevel(error: String?, apiLevel: ApiLevel?)
-	/**
 	 Indicates that the authentication workflow is completed.
 
 	 The authResult will contain a refresh url or in case of an error a communication error address.
@@ -92,7 +83,6 @@ public protocol WorkflowCallbacks: AnyObject {
 	 A pin change has been started via WorkflowController.startChangePin().
 	 */
 	func onChangePinStarted()
-
 	/**
 	 Indicates that a CAN is required to continue workflow.
 
@@ -160,6 +150,16 @@ public protocol WorkflowCallbacks: AnyObject {
 	 - Parameter error: Information about the error.
 	 */
 	func onInternalError(error: String)
+
+	/**
+	 Called if the SDK is waiting on a certain condition to be met.
+
+	 After resolving the cause of the issue, the workflow has to be resumed by calling
+	 WorkflowController.continueWorkflow().
+
+	 - Parameter cause: Cause for the waiting condition
+	 */
+	func onPause(cause: Cause)
 
 	/**
 	 A specific reader was recognized or has vanished. Also called as a response to WorkflowController.getReader().

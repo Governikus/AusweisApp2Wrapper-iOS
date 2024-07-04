@@ -1,0 +1,12 @@
+# SDKWrapper
+
+The SDKWrapper makes it easy to integrate ID card functionality into your own Android or iOS app.
+
+## Prerequisites
+
+* Install SwiftLint (https://github.com/realm/SwiftLint), which is used to  check the code style.
+
+## Development
+
+Just open the AusweisApp2SDKWrapper/Package.swift in Xcode.
+
