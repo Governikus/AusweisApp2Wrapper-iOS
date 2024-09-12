@@ -1,6 +1,4 @@
-def name = 'StageCopySwiftPkg'
 return { pSpmSource ->
-	echo "Entering ${name}"
 	copyArtifacts(
 		projectName: "${pSpmSource}",
 		filter: '**/*.zip',
