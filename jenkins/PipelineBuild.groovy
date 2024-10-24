@@ -66,7 +66,7 @@ pipeline {
 				script {
 					def pullRequestParams = params.activateReviewBuildParams ? '-Dsonar.pullrequest.key=${REVIEWBOARD_REVIEW_ID} -Dsonar.pullrequest.branch=${REVIEWBOARD_REVIEW_ID} -Dsonar.pullrequest.base=${REVIEWBOARD_REVIEW_BRANCH}' : '-Dsonar.branch.name=${REVIEWBOARD_REVIEW_BRANCH}'
 					catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
-						sh "sonar-scanner -Dsonar.scanner.metadataFilePath=\${WORKSPACE}/tmp/sonar-metadata.txt ${pullRequestParams} -Dsonar.token=\${SONARQUBE_TOKEN} -Dsonar.qualitygate.wait=true -Dsonar.qualitygate.timeout=90"
+						sh "sonar-scanner -Dsonar.scanner.metadataFilePath=\${WORKSPACE}/tmp/sonar-metadata.txt -Dsonar.projectName=AusweisApp-SDKWrapper-iOS ${pullRequestParams} -Dsonar.token=\${SONARQUBE_TOKEN} -Dsonar.qualitygate.wait=true -Dsonar.qualitygate.timeout=90"
 					}
 				}
 			}
